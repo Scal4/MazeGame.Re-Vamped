@@ -139,3 +139,25 @@ C:\Users\140331\Desktop\MazeGame.Re-Vamped-carter-branch\MazeGame.Re-Vamped-cart
 C:\Users\140331\Desktop\MazeGame.Re-Vamped-carter-branch\MazeGame.Re-Vamped-carter-branch\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\140331\Desktop\MazeGame.Re-Vamped-carter-branch\MazeGame.Re-Vamped-carter-branch\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\obj\x86\Debug\MazeGame.exe
 C:\Users\140331\Desktop\MazeGame.Re-Vamped-carter-branch\MazeGame.Re-Vamped-carter-branch\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\obj\x86\Debug\MazeGame.pdb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\white.xnb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\StartScreenBackground.xnb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\arrow.xnb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont1.xnb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont2.xnb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\MazeGameMap.txt
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\MazeGame.exe
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\MazeGame.pdb
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.dll
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Game.dll
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.dll
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.dll
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.dll
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.xml
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Game.xml
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.xml
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.xml
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.xml
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\obj\x86\Debug\MazeGame.csprojResolveAssemblyReference.cache
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\obj\x86\Debug\MazeGame.exe
+C:\Users\140331\Desktop\MazeGame\MazeGame\MazeGame\obj\x86\Debug\MazeGame.pdb

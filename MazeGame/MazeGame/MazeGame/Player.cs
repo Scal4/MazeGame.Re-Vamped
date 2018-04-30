@@ -14,10 +14,11 @@ namespace MazeGame
 {
     class Player
     {
+        Rectangle pBorder;
         public int points;
         public bool it;
         const int minSpeed = 1;
-        const int maxSpeed = 7;
+        const int maxSpeed = 8;
         public int iFrames = 0;
         int pMovex;
         int pMoveY;
@@ -34,18 +35,16 @@ namespace MazeGame
             pRect = rect;
             it = i;
             points = 400;
+            pBorder = new Rectangle(pRect.X + 2, pRect.Y + 2, pRect.Width - 4,pRect.Height - 4);
             updateSpeed();
         }
 
         public void updateSpeed()
         {
-            if (points / 50.0 == 0)
+            speed = ((maxSpeed)-(points /100)) * (speed / Math.Abs(speed));
+            if (speed == 0)
             {
                 speed = 1;
-            }
-            else
-            {
-                speed = points / 50 * (speed / Math.Abs(speed));
             }
             if (Math.Abs(speed) < minSpeed)
             {
@@ -76,7 +75,7 @@ namespace MazeGame
             {
                 bumpT--;
             }
-            if (bumpT == 0 || bumpT % 8 == 0)
+            if (bumpT == 0 || bumpT % 15 == 0)
             {
                 if (bumpT == 0)
                 {
@@ -89,7 +88,7 @@ namespace MazeGame
                 }
             }
             moveP(pindex, otherP);
-
+            pBorder = new Rectangle(pRect.X + 3, pRect.Y + 3, pRect.Width - 6, pRect.Height - 6);
         }
         private void moveP(int pindex, Player otherP)
         {
@@ -103,146 +102,115 @@ namespace MazeGame
                 gp = GamePad.GetState(PlayerIndex.Two);
             }
             KeyboardState kb = Keyboard.GetState();
-            if (!it || (iFrames == 0 && it))
+            pRect.X += (int)(gp.ThumbSticks.Left.X * speed);
+            if (pRect.Intersects(otherP.pRect))
             {
-
-                pRect.X += (int)(gp.ThumbSticks.Left.X * speed);
-                if (pRect.Intersects(otherP.pRect))
+                pRect.X -= (int)(gp.ThumbSticks.Left.X * speed);
+                ifCollide(otherP);
+                
+            }
+            pRect.Y -= (int)(gp.ThumbSticks.Left.Y * speed);
+            if (pRect.Intersects(otherP.pRect))
+            {
+                pRect.Y += (int)(gp.ThumbSticks.Left.Y * speed);
+                ifCollide(otherP);
+            }
+            if (pindex == 1)
+            {
+                if (kb.IsKeyDown(Keys.W))
                 {
-                    ifCollide(otherP);
-                    pRect.X -= (int)(gp.ThumbSticks.Left.X * speed);
-                    otherP.speed *= -1;
-                    otherP.bumpT = 20;
-                    speed *= -1;
-                    bumpT = 20;
-
-                }
-                pRect.Y -= (int)(gp.ThumbSticks.Left.Y * speed);
-                if (pRect.Intersects(otherP.pRect))
-                {
-                    ifCollide(otherP);
-
-                    pRect.Y += (int)(gp.ThumbSticks.Left.Y * speed);
-                    otherP.speed *= -1;
-                    otherP.bumpT = 20;
-                    speed *= -1;
-                    bumpT = 20;
-                }
-                if (pindex == 1)
-                {
-                    if (kb.IsKeyDown(Keys.W))
-                    {
-                        pRect.Y -= speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.Y += speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
-                    }
-                    if (kb.IsKeyDown(Keys.S))
+                    pRect.Y -= speed;
+                    if (pRect.Intersects(otherP.pRect))
                     {
                         pRect.Y += speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.Y -= speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
-                    }
-                    if (kb.IsKeyDown(Keys.A))
-                    {
-                        pRect.X -= speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.X += speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
-                    }
-                    if (kb.IsKeyDown(Keys.D))
-                    {
-                        pRect.X += speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.X -= speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
+                        ifCollide(otherP);    
                     }
                 }
-                if (pindex == 2)
+                if (kb.IsKeyDown(Keys.S))
                 {
-                    if (kb.IsKeyDown(Keys.Up))
+                    pRect.Y += speed;
+                    if (pRect.Intersects(otherP.pRect))
                     {
                         pRect.Y -= speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.Y += speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
+                        ifCollide(otherP);
                     }
-                    if (kb.IsKeyDown(Keys.Down))
-                    {
-                        pRect.Y += speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-
-                            pRect.Y -= speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
-                    }
-                    if (kb.IsKeyDown(Keys.Left))
-                    {
-                        pRect.X -= speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.X += speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
-                    }
-                    if (kb.IsKeyDown(Keys.Right))
+                }
+                if (kb.IsKeyDown(Keys.A))
+                {
+                    pRect.X -= speed;
+                    if (pRect.Intersects(otherP.pRect))
                     {
                         pRect.X += speed;
-                        if (pRect.Intersects(otherP.pRect))
-                        {
-                            ifCollide(otherP);
-                            pRect.X -= speed;
-                            otherP.speed *= -1;
-                            otherP.bumpT += 8;
-                            speed *= -1;
-                            bumpT += 8;
-                        }
+                        ifCollide(otherP);       
+                    }
+                }
+                if (kb.IsKeyDown(Keys.D))
+                {
+                    pRect.X += speed;
+                    if (pRect.Intersects(otherP.pRect))
+                    {
+                        pRect.X -= speed;
+                        ifCollide(otherP);
+                        
+                    }
+                }
+            }
+            if (pindex == 2)
+            {
+                if (kb.IsKeyDown(Keys.Up))
+                {
+                    pRect.Y -= speed;
+                    if (pRect.Intersects(otherP.pRect))
+                    {
+                        pRect.Y += speed;
+                        ifCollide(otherP);
+                        
+                    }
+                }
+                if (kb.IsKeyDown(Keys.Down))
+                {
+                    pRect.Y += speed;
+                    if (pRect.Intersects(otherP.pRect))
+                    {
+                         pRect.Y -= speed;
+                        ifCollide(otherP);
+                       
+                    }
+                }
+                if (kb.IsKeyDown(Keys.Left))
+                {
+                    pRect.X -= speed;
+                    if (pRect.Intersects(otherP.pRect))
+                    {
+                        pRect.X += speed;
+                        ifCollide(otherP);
+                        
+                    }
+                }
+                if (kb.IsKeyDown(Keys.Right))
+                {
+                    pRect.X += speed;
+                    if (pRect.Intersects(otherP.pRect))
+                    {
+                        pRect.X -= speed;
+                        ifCollide(otherP);
+                          
                     }
                 }
             }
         }
+
+
+            
         private void ifCollide(Player otherP)
         {
+            if (otherP.iFrames == 0 && iFrames == 0)
+            {
+                otherP.speed *= -1;
+                otherP.bumpT += 15;
+                speed *= -1;
+                bumpT +=15;
+            }
             if (it && otherP.iFrames == 0)
             {
                 it = false;
@@ -254,6 +222,33 @@ namespace MazeGame
                 it = true;
                 otherP.it = false;
                 otherP.iFrames = 40;
+            }
+        }
+        public void DrawP(SpriteBatch spriteBatch, int pIndex, SpriteFont font1,GraphicsDeviceManager graphics)
+        {
+            if(pIndex==1)
+            {
+                spriteBatch.Draw(pText, pRect, Color.Blue);
+            }
+            else if(pIndex==2)
+            {
+                spriteBatch.Draw(pText, pRect, Color.Green);
+            }
+            if(it)
+            {
+                spriteBatch.Draw(pText, pBorder, Color.Red);
+            }
+            else
+            {
+                spriteBatch.Draw(pText, pBorder, Color.White);
+            }
+            if(pIndex==1)
+            {
+                spriteBatch.DrawString(font1, "P1 score: " + (points - 50), new Vector2(5, 10), Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(font1, "P2 score: " + (points - 50), new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, 10), Color.White);
             }
         }
     }

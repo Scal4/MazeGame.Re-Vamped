@@ -56,8 +56,6 @@ namespace MazeGame
         
         const float stringScale = 0.5625f;
 
-        Rectangle p1Border;
-        Rectangle p2Border;
         Vector2 mapSize;
         Player p1;
         Player p2;
@@ -115,8 +113,7 @@ namespace MazeGame
             firstMap = new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
             p1 = new Player(true, new Rectangle(80, 80, 20, 20), allPurposeTexture);
             p2 = new Player(false, new Rectangle(140, 80, 20, 20), allPurposeTexture);
-            p1Border = new Rectangle(p1.pRect.X + 2, p1.pRect.Y + 2, p1.pRect.Width - 4, p1.pRect.Height - 4);
-            p2Border = new Rectangle(p2.pRect.X + 2, p2.pRect.Y + 2, p2.pRect.Width - 4, p2.pRect.Height - 4);
+
 
             CurrentMap = firstMap;
         }
@@ -218,8 +215,7 @@ namespace MazeGame
                 CurrentBackgroundC = firstMap.FLOORCOLOR;
                 p1.update(1, p2);
                 p2.update(2, p1);
-                p1Border = new Rectangle(p1.pRect.X + 3, p1.pRect.Y + 3, p1.pRect.Width - 6, p1.pRect.Height - 6);
-                p2Border = new Rectangle(p2.pRect.X + 3, p2.pRect.Y + 3, p2.pRect.Width - 6, p2.pRect.Height - 6);
+
             }
             oldKb = kb;
 
@@ -319,21 +315,9 @@ namespace MazeGame
                             spriteBatch.Draw(CurrentMap.tileMap[row, column].TileTexture, CurrentMap.tileMap[row, column].TileRect, CurrentMap.tileMap[row, column].TileColor);
                     }
                 }
-                spriteBatch.Draw(allPurposeTexture, p1.pRect, Color.Blue);
-                spriteBatch.Draw(allPurposeTexture, p2.pRect, Color.Green);
-                if(p1.it==false)
-                {
-                    spriteBatch.Draw(p1.pText, p1Border, Color.Red);
-                    spriteBatch.Draw(p2.pText, p2Border, Color.White);
-                }
-                else
-                {
-                    spriteBatch.Draw(p1.pText, p1Border, Color.White);
-                    spriteBatch.Draw(p2.pText, p2Border, Color.Red);
-                }
-                spriteBatch.DrawString(font1, "P1 score: " + (p1.points-50), new Vector2(5, 10), Color.White);
-                spriteBatch.DrawString(font1, "P2 score: " + (p2.points-50), new Vector2(GraphicsDevice.Viewport.Width/2, 10), Color.White);
-            
+                p1.DrawP(spriteBatch, 1, font1, graphics);
+                p2.DrawP(spriteBatch, 2, font1, graphics);
+
             }
             
             spriteBatch.End();
