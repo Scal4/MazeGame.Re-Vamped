@@ -55,6 +55,7 @@ namespace MazeGame
                 speed = maxSpeed * (speed / Math.Abs(speed));
             }
         }
+
         public void update(int pindex, Player otherP)
         {
             updateSpeed();
@@ -90,6 +91,7 @@ namespace MazeGame
             moveP(pindex, otherP);
             pBorder = new Rectangle(pRect.X + 3, pRect.Y + 3, pRect.Width - 6, pRect.Height - 6);
         }
+
         private void moveP(int pindex, Player otherP)
         {
             GamePadState gp;
@@ -107,7 +109,6 @@ namespace MazeGame
             {
                 pRect.X -= (int)(gp.ThumbSticks.Left.X * speed);
                 ifCollide(otherP);
-                
             }
             pRect.Y -= (int)(gp.ThumbSticks.Left.Y * speed);
             if (pRect.Intersects(otherP.pRect))
@@ -151,7 +152,6 @@ namespace MazeGame
                     {
                         pRect.X -= speed;
                         ifCollide(otherP);
-                        
                     }
                 }
             }
@@ -164,7 +164,6 @@ namespace MazeGame
                     {
                         pRect.Y += speed;
                         ifCollide(otherP);
-                        
                     }
                 }
                 if (kb.IsKeyDown(Keys.Down))
@@ -172,9 +171,8 @@ namespace MazeGame
                     pRect.Y += speed;
                     if (pRect.Intersects(otherP.pRect))
                     {
-                         pRect.Y -= speed;
+                        pRect.Y -= speed;
                         ifCollide(otherP);
-                       
                     }
                 }
                 if (kb.IsKeyDown(Keys.Left))
@@ -184,7 +182,6 @@ namespace MazeGame
                     {
                         pRect.X += speed;
                         ifCollide(otherP);
-                        
                     }
                 }
                 if (kb.IsKeyDown(Keys.Right))
@@ -194,14 +191,11 @@ namespace MazeGame
                     {
                         pRect.X -= speed;
                         ifCollide(otherP);
-                          
                     }
                 }
             }
         }
 
-
-            
         private void ifCollide(Player otherP)
         {
             if (otherP.iFrames == 0 && iFrames == 0)
@@ -224,6 +218,7 @@ namespace MazeGame
                 otherP.iFrames = 40;
             }
         }
+
         public void DrawP(SpriteBatch spriteBatch, int pIndex, SpriteFont font1,GraphicsDeviceManager graphics)
         {
             if(pIndex==1)
@@ -242,14 +237,7 @@ namespace MazeGame
             {
                 spriteBatch.Draw(pText, pBorder, Color.White);
             }
-            if(pIndex==1)
-            {
-                spriteBatch.DrawString(font1, "P1 score: " + (points - 50), new Vector2(5, 10), Color.White);
-            }
-            else
-            {
-                spriteBatch.DrawString(font1, "P2 score: " + (points - 50), new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, 10), Color.White);
-            }
+            spriteBatch.DrawString(font1, "P"+pIndex+" score: " + (points - 50), new Vector2((pIndex-1)*(graphics.GraphicsDevice.Viewport.Width/2)+8, 10), Color.White);
         }
     }
 }

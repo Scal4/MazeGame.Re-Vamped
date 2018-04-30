@@ -143,7 +143,6 @@ namespace MazeGame
             if (gameState == GameState.StartScreen)
             {
                 CurrentBackgroundC = Color.Black;
-
                 if (kb.IsKeyDown(Keys.Up) && oldKb != kb)
                 {
                     selecterArrow.Y = selecterArrow.Y - 100;
@@ -207,7 +206,6 @@ namespace MazeGame
                 {
                     instructionState = InstructionState.Page1;
                 }
-
             }
 
             if (gameState == GameState.Game)
@@ -215,13 +213,10 @@ namespace MazeGame
                 CurrentBackgroundC = firstMap.FLOORCOLOR;
                 p1.update(1, p2);
                 p2.update(2, p1);
-
             }
             oldKb = kb;
-
             base.Update(gameTime);
         }
-
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -229,11 +224,8 @@ namespace MazeGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(CurrentBackgroundC);
-
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-
-            // Draws start screen
             // Draws start screen
             if (gameState == GameState.StartScreen)
             {
@@ -285,7 +277,6 @@ namespace MazeGame
                     spriteBatch.DrawString(font1, "Next Page - Right Arrow Key\nPrevious Page - Left Arrow Key", new Vector2(GraphicsDevice.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 }
-
                 else if (instructionState == InstructionState.Page3)
                 {
                     spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
@@ -303,7 +294,6 @@ namespace MazeGame
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 }
             }
-
             // Draws game screen
             if (gameState == GameState.Game)
             {
@@ -317,7 +307,6 @@ namespace MazeGame
                 }
                 p1.DrawP(spriteBatch, 1, font1, graphics);
                 p2.DrawP(spriteBatch, 2, font1, graphics);
-
             }
             
             spriteBatch.End();
