@@ -195,7 +195,11 @@ namespace MazeGame
                 }
             }
         }
-
+        public void ifCollide(Rectangle r)
+        {
+           speed *= -1;
+           bumpT += 15;
+        }
         private void ifCollide(Player otherP)
         {
             if (otherP.iFrames == 0 && iFrames == 0)

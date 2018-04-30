@@ -36,7 +36,6 @@ namespace MazeGame
         SpriteFont bigFont;
         KeyboardState oldKb;
         Color CurrentBackgroundC;
-
         Map CurrentMap;
         Map firstMap;
 
@@ -45,18 +44,16 @@ namespace MazeGame
         InstructionState instructionState;
 
         // Rectangles
-        Rectangle startScreenBackground;
+
         Rectangle selecterArrow;
         Texture2D allPurposeTexture;
-        Texture2D startScreenBackgroundTexture;
+
         Texture2D selecterArrowTexture;
         double ScreenWidth;
         double ScreenHeight;
         double AspectRatio;
         
         const float stringScale = 0.5625f;
-
-        Vector2 mapSize;
         Player p1;
         Player p2;
         //p1 has a green border
