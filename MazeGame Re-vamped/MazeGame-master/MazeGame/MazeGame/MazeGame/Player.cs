@@ -12,6 +12,11 @@ using System.IO;
 
 namespace MazeGame
 {
+    enum MoveDirection
+    {
+        North, South, West, East
+    }
+
     class Player
     {
         public int points;
@@ -21,10 +26,15 @@ namespace MazeGame
         public int iFrames = 0;
         int pMovex;
         int pMoveY;
+        public bool moveR = true;
+        public bool moveL = true;
+        public bool moveU = true;
+        public bool moveD = true;
+        public MoveDirection moveDirection;
         public Texture2D pText;
         public Rectangle pRect;
         int bumpT = -1;
-        int speed = 4;
+        public int speed = 4;
         KeyboardState old;
         int itTime = 0;
         public Player(bool i, Rectangle rect, Texture2D text)
@@ -116,9 +126,10 @@ namespace MazeGame
                 }
                 if (pindex == 1)
                 {
-                    if (kb.IsKeyDown(Keys.W))
+                    if (kb.IsKeyDown(Keys.W) && moveU == true)
                     {
                         pRect.Y -= speed;
+                        moveDirection = MoveDirection.North;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -129,9 +140,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.S))
+                    if (kb.IsKeyDown(Keys.S) && moveD == true)
                     {
                         pRect.Y += speed;
+                        moveDirection = MoveDirection.South;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -142,9 +154,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.A))
+                    if (kb.IsKeyDown(Keys.A) && moveL == true)
                     {
                         pRect.X -= speed;
+                        moveDirection = MoveDirection.West;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -155,9 +168,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.D))
+                    if (kb.IsKeyDown(Keys.D) && moveR == true)
                     {
                         pRect.X += speed;
+                        moveDirection = MoveDirection.East;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -171,9 +185,10 @@ namespace MazeGame
                 }
                 if (pindex == 2)
                 {
-                    if (kb.IsKeyDown(Keys.Up))
+                    if (kb.IsKeyDown(Keys.Up) && moveU == true)
                     {
                         pRect.Y -= speed;
+                        moveDirection = MoveDirection.North;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -184,9 +199,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.Down))
+                    if (kb.IsKeyDown(Keys.Down) && moveD == true)
                     {
                         pRect.Y += speed;
+                        moveDirection = MoveDirection.South;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -198,9 +214,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.Left))
+                    if (kb.IsKeyDown(Keys.Left) && moveL == true)
                     {
                         pRect.X -= speed;
+                        moveDirection = MoveDirection.West;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -211,9 +228,10 @@ namespace MazeGame
                             bumpT += 8;
                         }
                     }
-                    if (kb.IsKeyDown(Keys.Right))
+                    if (kb.IsKeyDown(Keys.Right) && moveR == true)
                     {
                         pRect.X += speed;
+                        moveDirection = MoveDirection.East;
                         if (pRect.Intersects(otherP.pRect))
                         {
                             ifCollide(otherP);
@@ -241,6 +259,11 @@ namespace MazeGame
                 otherP.it = false;
                 otherP.iFrames = 40;
             }
+        }
+        public void ifCollide(Rectangle r)
+        {
+            speed *= -1;
+            bumpT += 15;
         }
     }
 }

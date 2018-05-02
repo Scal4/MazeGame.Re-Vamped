@@ -113,12 +113,21 @@ namespace MazeGame
             bigFont = this.Content.Load<SpriteFont>("SpriteFont2");
 
             firstMap = new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
-            p1 = new Player(true, new Rectangle(80, 80, 20, 20), allPurposeTexture);
-            p2 = new Player(false, new Rectangle(140, 80, 20, 20), allPurposeTexture);
+            p1 = new Player(true, new Rectangle(200, 100, 20, 20), allPurposeTexture);
+            p2 = new Player(false, new Rectangle(240, 100, 20, 20), allPurposeTexture);
             p1Border = new Rectangle(p1.pRect.X + 2, p1.pRect.Y + 2, p1.pRect.Width - 4, p1.pRect.Height - 4);
             p2Border = new Rectangle(p2.pRect.X + 2, p2.pRect.Y + 2, p2.pRect.Width - 4, p2.pRect.Height - 4);
 
             CurrentMap = firstMap;
+
+            for (int i = 0; i < firstMap.tileMap.GetLength(0); i++)
+            {
+                for (int k = 0; k < firstMap.tileMap.GetLength(1); k++)
+                {
+                    Console.Write("r");
+                }
+                Console.WriteLine();
+            }
         }
 
         /// <summary>
@@ -215,12 +224,33 @@ namespace MazeGame
 
             if (gameState == GameState.Game)
             {
+                // Update Player collision with map obstacles.
+                firstMap.MapPlayerCollisions(p1);
+                firstMap.MapPlayerCollisions(p2);
+
+
                 CurrentBackgroundC = firstMap.FLOORCOLOR;
                 p1.update(1, p2);
                 p2.update(2, p1);
                 p1Border = new Rectangle(p1.pRect.X + 3, p1.pRect.Y + 3, p1.pRect.Width - 6, p1.pRect.Height - 6);
                 p2Border = new Rectangle(p2.pRect.X + 3, p2.pRect.Y + 3, p2.pRect.Width - 6, p2.pRect.Height - 6);
             }
+
+            // Player and Wall Collisions??
+
+            // Player and Door Collisions.
+            for (int i = 0; i < CurrentMap.tileMap.GetLength(0); i++)
+            {
+                for (int k = 0; k < CurrentMap.tileMap.GetLength(1); k++)
+                {
+                    if(CurrentMap.tileMap[i,k].Tiletype == TileType.Door)
+                    {
+                        // Make a timer for animation?
+                       CurrentMap.MoveDoors(i,k, 0);
+                    }
+                }
+            }
+
             oldKb = kb;
 
             base.Update(gameTime);
@@ -311,14 +341,10 @@ namespace MazeGame
             // Draws game screen
             if (gameState == GameState.Game)
             {
-                for (int row = 0; row < CurrentMap.tileMap.GetLength(0); row++)
-                {
-                    for (int column = 0; column < CurrentMap.tileMap.GetLength(1); column++)
-                    {
-                        if (CurrentMap.tileMap[row, column] != null)
-                            spriteBatch.Draw(CurrentMap.tileMap[row, column].TileTexture, CurrentMap.tileMap[row, column].TileRect, CurrentMap.tileMap[row, column].TileColor);
-                    }
-                }
+                // Draws the Map
+                CurrentMap.MapDraw(gameState,spriteBatch);
+
+                // Draws the players
                 spriteBatch.Draw(allPurposeTexture, p1.pRect, Color.Blue);
                 spriteBatch.Draw(allPurposeTexture, p2.pRect, Color.Green);
                 if(p1.it==false)
@@ -333,6 +359,7 @@ namespace MazeGame
                 }
                 spriteBatch.DrawString(font1, "P1 score: " + p1.points, new Vector2(5, 10), Color.White);
                 spriteBatch.DrawString(font1, "P2 score: " + p2.points, new Vector2(GraphicsDevice.Viewport.Width/2, 10), Color.White);
+                // put all the above in a method in player class
             
             }
             

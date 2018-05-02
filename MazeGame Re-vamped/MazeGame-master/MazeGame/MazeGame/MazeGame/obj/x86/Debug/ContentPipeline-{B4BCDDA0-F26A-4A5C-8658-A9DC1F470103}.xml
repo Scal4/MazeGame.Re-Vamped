@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\white.xnb</Output>
+      <Output>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\white.xnb</Output>
       <Time>2018-04-15T12:07:12-05:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\StartScreenBackground.xnb</Output>
+      <Output>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\StartScreenBackground.xnb</Output>
       <Time>2018-04-15T12:07:12-05:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\arrow.xnb</Output>
+      <Output>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\arrow.xnb</Output>
       <Time>2018-04-15T12:07:12-05:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Output>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
       <Time>2018-04-15T12:07:12-05:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont2.xnb</Output>
+      <Output>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont2.xnb</Output>
       <Time>2018-04-24T13:43:50.1671849-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -53,10 +53,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGameContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\216410\Desktop\MazeGame with Start Screen\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGameContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\216410\Desktop\MazeGame Re-vamped\MazeGame-master\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

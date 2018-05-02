@@ -21,13 +21,15 @@ namespace MazeGame
         public Texture2D TileTexture;
         public Color TileColor;
         public TileType Tiletype;
+        public int TileDrawLayer;
 
-        public Tile(Rectangle TileR, Texture2D TileT, Color TileC, TileType type)
+        public Tile(Rectangle TileR, Texture2D TileT, Color TileC, TileType type, int TileDrawL)
         {
             TileRect = TileR;
             TileTexture = TileT;
             TileColor = TileC;
             Tiletype = type;
+            TileDrawLayer = TileDrawL;
         }
     }
 }
