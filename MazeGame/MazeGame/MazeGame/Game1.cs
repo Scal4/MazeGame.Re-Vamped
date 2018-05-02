@@ -12,11 +12,12 @@ using System.IO;
 
 namespace MazeGame
 {
-    enum GameState
+    public enum GameState
     {
         StartScreen,
         Instructions,
-        Game
+        Game,
+        End
     }
 
     enum InstructionState
@@ -40,7 +41,7 @@ namespace MazeGame
         Map firstMap;
 
         // Enum stuff
-        GameState gameState;
+        public GameState gameState;
         InstructionState instructionState;
 
         // Rectangles
@@ -160,17 +161,17 @@ namespace MazeGame
                     selecterArrow.Y = 500;
                 }
 
-                if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500)
+                if (kb.IsKeyDown(Keys.Enter)&&!oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500)
                 {
                     gameState = GameState.Instructions;
                 }
 
-                if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 600)
+                if (kb.IsKeyDown(Keys.Enter) && !oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 600)
                 {
                     gameState = GameState.Game;
                 }
 
-                if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 700)
+                if (kb.IsKeyDown(Keys.Enter) && !oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 700)
                 {
                     this.Exit();
                 }
@@ -210,6 +211,22 @@ namespace MazeGame
                 CurrentBackgroundC = firstMap.FLOORCOLOR;
                 p1.update(1, p2);
                 p2.update(2, p1);
+                if(p1.points<=50||p2.points<=50)
+                {
+                    gameState = GameState.End;
+
+                }
+                
+            }
+            if(gameState==GameState.End)
+            {
+                if(kb.IsKeyDown(Keys.Enter)&&!oldKb.IsKeyDown(Keys.Enter))
+                {
+                    gameState = GameState.StartScreen;
+                    CurrentMap= new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
+                    p1 = new Player(true, new Rectangle(80, 80, 20, 20), allPurposeTexture);
+                    p2 = new Player(false, new Rectangle(140, 80, 20, 20), allPurposeTexture);
+                }
             }
             oldKb = kb;
             base.Update(gameTime);
@@ -305,7 +322,18 @@ namespace MazeGame
                 p1.DrawP(spriteBatch, 1, font1, graphics);
                 p2.DrawP(spriteBatch, 2, font1, graphics);
             }
-            
+            if(gameState==GameState.End)
+            {
+                if(p1.points<=50)
+                {
+                    spriteBatch.DrawString(font1, "Player 2 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.White);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font1, "Player 1 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Black);
+                }
+                spriteBatch.DrawString(font1, "Press enter to return to the title screen", new Vector2(GraphicsDevice.Viewport.Height / 2, GraphicsDevice.Viewport.Height / 2+40), Color.White);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

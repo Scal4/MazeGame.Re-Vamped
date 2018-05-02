@@ -17,7 +17,7 @@ namespace MazeGame
         Rectangle pBorder;
         public int points;
         public bool it;
-        const int minSpeed = 1;
+        const int minSpeed = 2;
         const int maxSpeed = 8;
         public int iFrames = 0;
         int pMovex;
@@ -41,11 +41,14 @@ namespace MazeGame
 
         public void updateSpeed()
         {
-            speed = ((maxSpeed)-(points /100)) * (speed / Math.Abs(speed));
-            if (speed == 0)
+            if (((maxSpeed) - (points / 100)) != 0)
+            {
+                speed = ((maxSpeed) - (points / 100)) * (speed / Math.Abs(speed));
+            }
+            /*if (speed == 0)
             {
                 speed = 1;
-            }
+            }*/
             if (Math.Abs(speed) < minSpeed)
             {
                 speed = minSpeed * (speed / Math.Abs(speed));
@@ -213,12 +216,14 @@ namespace MazeGame
             {
                 it = false;
                 otherP.it = true;
+                otherP.points -= 10;
                 iFrames = 40;
             }
             if (!it && iFrames == 0)
             {
                 it = true;
                 otherP.it = false;
+                points -= 10;
                 otherP.iFrames = 40;
             }
         }
