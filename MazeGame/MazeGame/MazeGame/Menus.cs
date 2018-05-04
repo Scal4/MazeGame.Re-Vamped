@@ -43,6 +43,7 @@ namespace MazeGame
         Texture2D selecterArrowTexture;
         Texture2D splashScreenTexture;
         Color splashScreenColor;
+        Color CurrentBackgroundC;
         float stringScale;
         double ScreenWidth;
         double ScreenHeight;
@@ -53,6 +54,7 @@ namespace MazeGame
         int red;
         int blue;
         int green;
+        int round;
         string roundString;
         string gameOverString;
 
@@ -80,6 +82,7 @@ namespace MazeGame
 
             roundOverTimer = 0;
             gameOverTimer = 0;
+            round = 1;
 
             roundString = "Round Over";
             gameOverString = "Game Over";
@@ -91,7 +94,7 @@ namespace MazeGame
 
         // Method for menu navigations and splash screen. Round over and game over screens still need work
         public void Navigations(GameState gameState, InstructionState instructionState, KeyboardState kb, Color CurrentBackgroundC, KeyboardState oldKb,
-                                int timer, int roundOverTimer, int gameOverTimer)
+                                int timer, int gameOverTimer)
         {
             // Code for start screen
             if (gameState == GameState.StartScreen)
@@ -178,10 +181,22 @@ namespace MazeGame
             if (gameState == GameState.RoundOver)
             {
                 roundOverTimer++;
+                Console.WriteLine(roundOverTimer);
 
-                if (roundOverTimer >= 240)
+                if(round != 4)
                 {
-                    this.gameState = GameState.Game;
+                    if (roundOverTimer >= 240)
+                    {
+                        // Reset
+                        this.gameState = GameState.Game;
+                        roundOverTimer = 0;
+                        round++;
+                    }
+                }
+
+                if(round == 4)
+                {
+                    gameState = GameState.GameOver;
                 }
             }
 
@@ -193,8 +208,14 @@ namespace MazeGame
                 if (gameOverTimer >= 240)
                 {
                     this.gameState = GameState.StartScreen;
+                    gameOverTimer = 0;
                 }
             }
+        }
+
+        public int ReturnTimer()
+        {
+            return roundOverTimer;
         }
 
         // Methods to run the states 
@@ -213,6 +234,7 @@ namespace MazeGame
         {
             if (gameState == GameState.StartScreen)
             {
+                
                 spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(g.Viewport.Width / 5, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(g.Viewport.Width / 5, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None,
                                         0f);

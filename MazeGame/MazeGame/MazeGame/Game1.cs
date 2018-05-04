@@ -169,7 +169,7 @@ namespace MazeGame
             KeyboardState kb = Keyboard.GetState();
 
             // Methods from the Menus class to run the menus
-            menus.Navigations(gameState, instructionState, kb, CurrentBackgroundC, oldKb, timer, roundOverTimer, gameOverTimer);
+            menus.Navigations(gameState, instructionState, kb, CurrentBackgroundC, oldKb, timer, gameOverTimer);
             gameState = menus.GameStateValue();
             instructionState = menus.InstructionStateValue();
 
@@ -184,8 +184,15 @@ namespace MazeGame
                 p1.update(1, p2);
                 p2.update(2, p1);
 
-                p1Border = new Rectangle(p1.pRect.X + 3, p1.pRect.Y + 3, p1.pRect.Width - 6, p1.pRect.Height - 6);
-                p2Border = new Rectangle(p2.pRect.X + 3, p2.pRect.Y + 3, p2.pRect.Width - 6, p2.pRect.Height - 6);
+                RoundOverCheck();
+                
+            }
+            if (menus.ReturnTimer() >= 240)
+            {
+                //Reset
+                //p1.Reset();
+                //p2.Reset();
+                //CurrentBackgroundC = Color.Black;
             }
 
             // Keep so the player can choose to exit the game
@@ -205,6 +212,19 @@ namespace MazeGame
             oldKb = kb;
 
             base.Update(gameTime);
+        }
+
+        public void RoundOverCheck()
+        {
+            if (p1.winCheck() == GameState.RoundOver)
+            {
+                gameState = GameState.RoundOver;
+            }
+
+            else if (p2.winCheck() == GameState.RoundOver)
+            {
+                gameState = GameState.RoundOver;
+            }
         }
 
         /// <summary>
@@ -233,18 +253,7 @@ namespace MazeGame
                 // put all the above in a method in player class
 
             }
-            if (gameState == GameState.End)
-            {
-                if (p1.points <= 50)
-                {
-                    spriteBatch.DrawString(font1, "Player 2 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.White);
-                }
-                else
-                {
-                    spriteBatch.DrawString(font1, "Player 1 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Black);
-                }
-                spriteBatch.DrawString(font1, "Press enter to return to the title screen", new Vector2(GraphicsDevice.Viewport.Height / 2, GraphicsDevice.Viewport.Height / 2 + 40), Color.White);
-            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);

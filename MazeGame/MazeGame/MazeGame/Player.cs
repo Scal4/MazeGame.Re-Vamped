@@ -44,6 +44,7 @@ namespace MazeGame
         public int speed = 4;
         KeyboardState old;
         int itTime = 0;
+        GameState gameState;
 
         public Player(bool i, Rectangle rect, Texture2D text)
         {
@@ -55,6 +56,7 @@ namespace MazeGame
             pBorder = new Rectangle(pRect.X + 2, pRect.Y + 2, pRect.Width - 4, pRect.Height - 4);
             updateSpeed();
             previousPos = new Vector2(rect.X, rect.Y); // N
+            gameState = GameState.Game;
         }
 
         public void updateSpeed()
@@ -112,7 +114,24 @@ namespace MazeGame
             pBorder = new Rectangle(pRect.X + 3, pRect.Y + 3, pRect.Width - 6, pRect.Height - 6);
             CalcPreviousPos(); // N
 
+            if(points <= 50)
+            {
+                gameState = GameState.RoundOver;
+            }
+
         }
+
+        public void Reset()
+        {
+            points = 400;
+            gameState = GameState.Game;
+        }
+
+        public GameState winCheck()
+        {
+            return gameState;
+        }
+
         private void moveP(int pindex, Player otherP)
         {
             GamePadState gp;
