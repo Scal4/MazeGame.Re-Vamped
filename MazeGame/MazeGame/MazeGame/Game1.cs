@@ -228,24 +228,23 @@ namespace MazeGame
                 CurrentMap.MapDraw(gameState, spriteBatch);
 
                 // Draws the players
-                spriteBatch.Draw(allPurposeTexture, p1.pRect, Color.Blue);
-                spriteBatch.Draw(allPurposeTexture, p2.pRect, Color.Green);
-                if (p1.it == false)
-                {
-                    spriteBatch.Draw(p1.pText, p1Border, Color.Red);
-                    spriteBatch.Draw(p2.pText, p2Border, Color.White);
-                }
-                else
-                {
-                    spriteBatch.Draw(p1.pText, p1Border, Color.White);
-                    spriteBatch.Draw(p2.pText, p2Border, Color.Red);
-                }
-                spriteBatch.DrawString(font1, "P1 score: " + p1.points, new Vector2(5, 10), Color.White);
-                spriteBatch.DrawString(font1, "P2 score: " + p2.points, new Vector2(GraphicsDevice.Viewport.Width / 2, 10), Color.White);
+                p1.DrawP(spriteBatch, 1, font1, graphics);
+                p2.DrawP(spriteBatch, 2, font1, graphics);
                 // put all the above in a method in player class
 
             }
-
+            if (gameState == GameState.End)
+            {
+                if (p1.points <= 50)
+                {
+                    spriteBatch.DrawString(font1, "Player 2 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.White);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font1, "Player 1 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Black);
+                }
+                spriteBatch.DrawString(font1, "Press enter to return to the title screen", new Vector2(GraphicsDevice.Viewport.Height / 2, GraphicsDevice.Viewport.Height / 2 + 40), Color.White);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

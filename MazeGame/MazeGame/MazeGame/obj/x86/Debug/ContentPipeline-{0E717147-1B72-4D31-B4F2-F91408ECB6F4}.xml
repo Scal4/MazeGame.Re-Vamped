@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\arrow.xnb</Output>
-      <Time>2018-05-02T15:20:12.3206751-05:00</Time>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\arrow.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
     </Item>
     <Item>
       <Source>StartScreenBackground.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\StartScreenBackground.xnb</Output>
-      <Time>2018-05-02T15:20:12.3167086-05:00</Time>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\StartScreenBackground.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
     </Item>
     <Item>
       <Source>white.jpg</Source>
@@ -25,26 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\white.xnb</Output>
-      <Time>2018-05-02T15:20:12.3026245-05:00</Time>
-    </Item>
-    <Item>
-      <Source>SpriteFont1.spritefont</Source>
-      <Name>SpriteFont1</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
-      <Time>2018-05-02T15:20:12.3327066-05:00</Time>
-    </Item>
-    <Item>
-      <Source>SpriteFont2.spritefont</Source>
-      <Name>SpriteFont2</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont2.xnb</Output>
-      <Time>2018-05-02T15:20:12.3246868-05:00</Time>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\white.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
     </Item>
     <Item>
       <Source>splashScreen.png</Source>
@@ -52,8 +34,26 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\splashScreen.xnb</Output>
-      <Time>2018-05-04T04:37:46.2435543-05:00</Time>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\splashScreen.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
+    </Item>
+    <Item>
+      <Source>SpriteFont1.spritefont</Source>
+      <Name>SpriteFont1</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont1.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
+    </Item>
+    <Item>
+      <Source>SpriteFont2.spritefont</Source>
+      <Name>SpriteFont2</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\SpriteFont2.xnb</Output>
+      <Time>2018-05-04T06:04:54-05:00</Time>
     </Item>
     <Item>
       <Source>Menu_Audio.mp3</Source>
@@ -61,9 +61,9 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\Menu_Audio.xnb</Output>
-      <Extra>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\Menu_Audio.wma</Extra>
-      <Time>2018-05-04T04:37:46.2375295-05:00</Time>
+      <Output>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\Menu_Audio.xnb</Output>
+      <Extra>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\Menu_Audio.wma</Extra>
+      <Time>2018-05-04T06:04:54-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -72,10 +72,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGameContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGameContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\216410\Desktop\MazeGame\MazeGame\MazeGame\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -103,8 +103,8 @@
         <Value>2011-09-01T16:22:30-05:00</Value>
       </Assembly>
       <Assembly>
-        <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2018-03-30T12:25:55.8969568-05:00</Value>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2017-05-17T12:17:11.6083928-05:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

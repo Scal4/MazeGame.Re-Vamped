@@ -20,7 +20,8 @@ namespace MazeGame
         Game,
         RoundOver,
         GameOver,
-        Exit
+        Exit,
+        End
     }
 
     enum InstructionState
