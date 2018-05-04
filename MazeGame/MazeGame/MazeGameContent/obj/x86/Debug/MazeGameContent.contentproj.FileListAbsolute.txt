@@ -1,0 +1,2 @@
+C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGameContent\obj\x86\Debug\MazeGameContent.contentprojResolveAssemblyReference.cache
+C:\Coding 2018\Microsoft Projects\MazeGame\MazeGame\MazeGameContent\obj\x86\Debug\MazeGameContent.contentproj.CoreCompileInputs.cache
