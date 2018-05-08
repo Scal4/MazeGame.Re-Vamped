@@ -23,21 +23,29 @@ namespace MazeGame
 
     class Player
     {
+        //p1 has a green border
+        //p2 has a blue border
         Rectangle pBorder;
-        public int points;
+
         public bool it;
+
         const int minSpeed = 2;
         const int maxSpeed = 8;
         public int iFrames = 0;
+        public int points;
         int pMovex;
         int pMoveY;
+
         public bool moveR = true; // N
         public bool moveL = true; // N
         public bool moveU = true; // N
         public bool moveD = true; // N
+
         public MoveDirectionV moveDirectionV; // N
         public MoveDirectionH moveDirectionH; // N
+
         public Vector2 previousPos; // N
+
         public Texture2D pText;
         public Rectangle pRect;
         int bumpT = -1;

@@ -21,55 +21,57 @@ namespace MazeGame
 
         SpriteBatch spriteBatch;
 
+        // All Fonts used in game
         SpriteFont font1;
         SpriteFont bigFont;
 
         KeyboardState oldKb;
-
+        
         Color CurrentBackgroundC;
         Color splashScreenColor;
 
+        // All Maps in game
         Map CurrentMap;
         Map firstMap;
+
         Menus menus;
-        Player p1;
-        Player p2;
+
         Audio audio;
 
+        // Players in the game
+        Player p1;
+        Player p2;
+                
         // Enum stuff
         GameState gameState;
         InstructionState instructionState;
 
         // Rectangles
-        Rectangle startScreenBackground;
         Rectangle splashScreen;
         Rectangle selecterArrow;
         Rectangle p1Border;
         Rectangle p2Border;
 
+        // Textures for the game ( possible to put them in their resprective classes?
         Texture2D allPurposeTexture;
         Texture2D selecterArrowTexture;
         Texture2D splashScreenTexture;
 
+        // Can we put these in Menu's?
         double ScreenWidth;
         double ScreenHeight;
 
-        // Ints
+        // Colors
         int red;
         int blue;
         int green;
+
+        // Timers
         int timer;
-        int roundOverTimer;
         int gameOverTimer;
 
         // Lists
         List<Song> songs;
-
-        const float stringScale = 0.5625f;
-
-        Vector2 mapSize;
-        //p1 has a green border
-        //p2 has a blue border
 
         public Game1()
         {
@@ -78,6 +80,7 @@ namespace MazeGame
 
             ScreenHeight = graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             ScreenWidth = graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
             graphics.ApplyChanges();
         }
 
@@ -99,7 +102,6 @@ namespace MazeGame
             blue = 0;
             green = 0;
             timer = 0;
-            roundOverTimer = 0;
             gameOverTimer = 0;
 
             CurrentBackgroundC = Color.Black;
@@ -141,7 +143,7 @@ namespace MazeGame
 
             CurrentMap = firstMap;
             
-            menus = new Menus(gameState, instructionState, GraphicsDevice, stringScale, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, splashScreen);
+            menus = new Menus(gameState, instructionState, GraphicsDevice, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, splashScreen);
             audio = new Audio(songs, gameState);
 
             MediaPlayer.Play(songs[0]);

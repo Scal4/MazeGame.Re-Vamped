@@ -44,10 +44,13 @@ namespace MazeGame
         Texture2D splashScreenTexture;
         Color splashScreenColor;
         Color CurrentBackgroundC;
-        float stringScale;
+
         double ScreenWidth;
         double ScreenHeight;
+
+        const float stringScale = 0.5625f;
         float AspectRatio;
+
         int timer;
         int roundOverTimer;
         int gameOverTimer;
@@ -55,18 +58,18 @@ namespace MazeGame
         int blue;
         int green;
         int round;
+
         string roundString;
         string gameOverString;
 
+
         public Menus(GameState gameState, InstructionState instructionState,
-                     GraphicsDevice graphicsDevice,
-                     float stringScale, double ScreenWidth, double ScreenHeight,
+                     GraphicsDevice graphicsDevice, double ScreenWidth, double ScreenHeight,
                      SpriteFont bigFont, SpriteFont font1,
                      Texture2D selecterArrowTexture, Texture2D splashScreenTexture,
                      Rectangle splashScreen)
         {
             this.g = graphicsDevice;
-            this.stringScale = stringScale;
             this.ScreenWidth = ScreenWidth;
             this.ScreenHeight = ScreenHeight;
             this.bigFont = bigFont;
