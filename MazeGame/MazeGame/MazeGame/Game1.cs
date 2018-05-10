@@ -12,54 +12,67 @@ using System.IO;
 
 namespace MazeGame
 {
-    public enum GameState
-    {
-        StartScreen,
-        Instructions,
-        Game,
-        End
-    }
-
-    enum InstructionState
-    {
-        Page1,
-        Page2,
-        Page3
-    }
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+
         SpriteBatch spriteBatch;
+
+        // All Fonts used in game
         SpriteFont font1;
         SpriteFont bigFont;
+
         KeyboardState oldKb;
+        
         Color CurrentBackgroundC;
+        Color splashScreenColor;
+
+        // All Maps in game
         Map CurrentMap;
         Map firstMap;
 
+        Menus menus;
+
+        Audio audio;
+
+        // Players in the game
+        Player p1;
+        Player p2;
+                
         // Enum stuff
-        public GameState gameState;
+        GameState gameState;
         InstructionState instructionState;
 
         // Rectangles
-
+        Rectangle splashScreen;
         Rectangle selecterArrow;
-        Texture2D allPurposeTexture;
+        Rectangle p1Border;
+        Rectangle p2Border;
 
+        // Textures for the game ( possible to put them in their resprective classes?
+        Texture2D allPurposeTexture;
         Texture2D selecterArrowTexture;
+        Texture2D splashScreenTexture;
+
+        // Can we put these in Menu's?
         double ScreenWidth;
         double ScreenHeight;
-        double AspectRatio;
-        
-        const float stringScale = 0.5625f;
-        Player p1;
-        Player p2;
-        //p1 has a green border
-        //p2 has a blue border
 
+        // Colors
+        int red;
+        int blue;
+        int green;
+
+        // Timers
+        int timer;
+        int gameOverTimer;
+
+        // Lists
+        List<Song> songs;
+        int pSize;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -67,6 +80,7 @@ namespace MazeGame
 
             ScreenHeight = graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             ScreenWidth = graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
             graphics.ApplyChanges();
         }
 
@@ -79,12 +93,22 @@ namespace MazeGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            pSize = GraphicsDevice.Viewport.Width / 85;
             gameState = GameState.StartScreen;
             instructionState = InstructionState.Page1;
             selecterArrow = new Rectangle(GraphicsDevice.Viewport.Width / 3, 500, 50, 50);
-            
-            AspectRatio = ScreenWidth / ScreenHeight;
+            splashScreen = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+
+            red = 0;
+            blue = 0;
+            green = 0;
+            timer = 0;
+            gameOverTimer = 0;
+
             CurrentBackgroundC = Color.Black;
+            splashScreenColor = new Color(red, green, blue);
+
+            songs = new List<Song>();
 
             oldKb = Keyboard.GetState();
 
@@ -105,15 +129,26 @@ namespace MazeGame
             // TODO: use this.Content to load your game content here
             allPurposeTexture = this.Content.Load<Texture2D>("white");
             selecterArrowTexture = this.Content.Load<Texture2D>("arrow");
+            splashScreenTexture = this.Content.Load<Texture2D>("splashScreen");
             font1 = this.Content.Load<SpriteFont>("SpriteFont1");
             bigFont = this.Content.Load<SpriteFont>("SpriteFont2");
 
             firstMap = new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
-            p1 = new Player(true, new Rectangle(80, 80, 20, 20), allPurposeTexture);
-            p2 = new Player(false, new Rectangle(140, 80, 20, 20), allPurposeTexture);
 
+            p1 = new Player(true, new Rectangle(200, 100, pSize, pSize), allPurposeTexture);
+            p2 = new Player(false, new Rectangle(240, 100, pSize, pSize), allPurposeTexture);
+            p1Border =new Rectangle(p1.pRect.X + p1.pRect.Width / 7, p1.pRect.Y + p1.pRect.Width / 7, p1.pRect.Width - ((p1.pRect.Width / 7) * 2), p1.pRect.Height - ((p1.pRect.Width / 7) * 2));
+            p2Border = new Rectangle(p2.pRect.X + p2.pRect.Width / 7, p2.pRect.Y + p2.pRect.Width / 7, p2.pRect.Width - ((p2.pRect.Width / 7) * 2), p2.pRect.Height - ((p2.pRect.Width / 7) * 2));
+
+            // Songs
+            songs.Add(this.Content.Load<Song>("Menu_Audio"));
 
             CurrentMap = firstMap;
+            
+            menus = new Menus(gameState, instructionState, GraphicsDevice, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, splashScreen);
+            audio = new Audio(songs, gameState);
+
+            MediaPlayer.Play(songs[0]);
         }
 
         /// <summary>
@@ -136,101 +171,66 @@ namespace MazeGame
 
             // Add your update logic here
             KeyboardState kb = Keyboard.GetState();
-            
-            // Code for start screen
-            if (gameState == GameState.StartScreen)
-            {
-                CurrentBackgroundC = Color.Black;
-                if (kb.IsKeyDown(Keys.Up) && oldKb != kb)
-                {
-                    selecterArrow.Y = selecterArrow.Y - 100;
-                }
 
-                if (kb.IsKeyDown(Keys.Down) && oldKb != kb)
-                {
-                    selecterArrow.Y = selecterArrow.Y + 100;
-                }
-
-                if (selecterArrow.Y < 500)
-                {
-                    selecterArrow.Y = 700;
-                }
-
-                if (selecterArrow.Y > 700)
-                {
-                    selecterArrow.Y = 500;
-                }
-
-                if (kb.IsKeyDown(Keys.Enter)&&!oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500)
-                {
-                    gameState = GameState.Instructions;
-                }
-
-                if (kb.IsKeyDown(Keys.Enter) && !oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 600)
-                {
-                    gameState = GameState.Game;
-                }
-
-                if (kb.IsKeyDown(Keys.Enter) && !oldKb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 700)
-                {
-                    this.Exit();
-                }
-            }
-
-            // Code for insturction screen
-            if (gameState == GameState.Instructions)
-            {
-                if (kb.IsKeyDown(Keys.Escape) && oldKb != kb)
-                {
-                    gameState = GameState.StartScreen;
-                }
-
-                if (kb.IsKeyDown(Keys.Right) && instructionState == InstructionState.Page1 && oldKb != kb)
-                {
-                    instructionState = InstructionState.Page2;
-                }
-
-                else if (kb.IsKeyDown(Keys.Right) && instructionState == InstructionState.Page2 && oldKb != kb)
-                {
-                    instructionState = InstructionState.Page3;
-                }
-
-                else if (kb.IsKeyDown(Keys.Left) && instructionState == InstructionState.Page3 && oldKb != kb)
-                {
-                    instructionState = InstructionState.Page2;
-                }
-
-                else if (kb.IsKeyDown(Keys.Left) && instructionState == InstructionState.Page2 && oldKb != kb)
-                {
-                    instructionState = InstructionState.Page1;
-                }
-            }
+            // Methods from the Menus class to run the menus
+            menus.Navigations(gameState, instructionState, kb, CurrentBackgroundC, oldKb, timer, gameOverTimer);
+            gameState = menus.GameStateValue();
+            instructionState = menus.InstructionStateValue();
 
             if (gameState == GameState.Game)
             {
+                // Update Player collision with map obstacles.
+                firstMap.MapPlayerCollisions(p1);
+                firstMap.MapPlayerCollisions(p2);
+
                 CurrentBackgroundC = firstMap.FLOORCOLOR;
+
                 p1.update(1, p2);
                 p2.update(2, p1);
-                if(p1.points<=50||p2.points<=50)
-                {
-                    gameState = GameState.End;
 
-                }
+                RoundOverCheck();
                 
             }
-            if(gameState==GameState.End)
+            if (menus.ReturnTimer() >= 240)
             {
-                if(kb.IsKeyDown(Keys.Enter)&&!oldKb.IsKeyDown(Keys.Enter))
-                {
-                    gameState = GameState.StartScreen;
-                    CurrentMap= new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
-                    p1 = new Player(true, new Rectangle(80, 80, 20, 20), allPurposeTexture);
-                    p2 = new Player(false, new Rectangle(140, 80, 20, 20), allPurposeTexture);
-                }
+                //Reset
+                //p1.Reset();
+                //p2.Reset();
+                //CurrentBackgroundC = Color.Black;
             }
+
+            // Keep so the player can choose to exit the game
+            if (gameState == GameState.Exit)
+            {
+                this.Exit();
+            }
+
+            // Splash screen timer
+            timer++;
+
+            if (MediaPlayer.State == MediaState.Stopped)
+            {
+               MediaPlayer.Play(songs[0]);
+            }
+
             oldKb = kb;
+
             base.Update(gameTime);
         }
+
+        public void RoundOverCheck()
+        {
+            if (p1.winCheck() == GameState.RoundOver)
+            {
+                gameState = GameState.RoundOver;
+            }
+
+            else if (p2.winCheck() == GameState.RoundOver)
+            {
+                gameState = GameState.RoundOver;
+            }
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -238,102 +238,26 @@ namespace MazeGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(CurrentBackgroundC);
+
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            // Draws start screen
-            if (gameState == GameState.StartScreen)
-            {
-                spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(GraphicsDevice.Viewport.Width / 5, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(GraphicsDevice.Viewport.Width / 5, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None,
-                                        0f);
-                spriteBatch.DrawString(font1, "Use the Arrow Keys to move the arrow", new Vector2(GraphicsDevice.Viewport.Width / 4 - 30, 200), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                        SpriteEffects.None, 0f);
-                spriteBatch.DrawString(font1, "Use the Enter Key to select an option", new Vector2(GraphicsDevice.Viewport.Width / 4 - 30, 250), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                        SpriteEffects.None, 0f);
-                spriteBatch.DrawString(font1, "Instructions", new Vector2(GraphicsDevice.Viewport.Width / 3 + 100, 500), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(font1, "Start Game", new Vector2(GraphicsDevice.Viewport.Width / 3 + 100, 600), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(font1, "Exit", new Vector2(GraphicsDevice.Viewport.Width / 3 + 100, 700), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.Draw(selecterArrowTexture, selecterArrow, Color.White);
-            }
-            if (gameState == GameState.Instructions)
-            {
-                if (instructionState == InstructionState.Page1)
-                {
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Controls:\nPlayer 1: W - Up, A - Left, S - Down, D - Right\nPlayer 2: Arrow Keys", new Vector2(GraphicsDevice.Viewport.Width / 4, 200),
-                                            Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Red Square - Tagger", new Vector2(GraphicsDevice.Viewport.Width / 4, 400), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "White Square - Runner", new Vector2(GraphicsDevice.Viewport.Width / 4, 450), Color.White, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(GraphicsDevice.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Next Page - Right Arrow Key", new Vector2(GraphicsDevice.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                }
 
-                else if (instructionState == InstructionState.Page2)
-                {
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Tiles:", new Vector2(GraphicsDevice.Viewport.Width / 6, 200), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Door - Opens for a limited time when player uses it", new Vector2(GraphicsDevice.Viewport.Width / 6, 250), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Speed Tiles - Has the chance to either increase or decrease\nthe player's speed temporarily", new Vector2(GraphicsDevice.Viewport.Width / 6, 300),
-                                            Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Slow Block - Player's speed will be decreased for a short time", new Vector2(GraphicsDevice.Viewport.Width / 6, 400), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Speed Block - Player's speed will be increased for a short time", new Vector2(GraphicsDevice.Viewport.Width / 6, 450), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(GraphicsDevice.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Next Page - Right Arrow Key\nPrevious Page - Left Arrow Key", new Vector2(GraphicsDevice.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                }
-                else if (instructionState == InstructionState.Page3)
-                {
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Power-Ups:", new Vector2(GraphicsDevice.Viewport.Width / 6, 200), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Thunderbolt - Stuns other players for one second.\nRunner and Tagger can use this", new Vector2(GraphicsDevice.Viewport.Width / 6, 250), Color.Red, 0f,
-                                            Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Ghost - Ignore tile effects. Can pass through doors at any time.\nGhost cannot be tagged. Lasts for a few seconds",
-                                            new Vector2(GraphicsDevice.Viewport.Width / 6, 350), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Flicker - Screen flashes, making it more difficult for\nplayers to see for 5 seconds", new Vector2(GraphicsDevice.Viewport.Width / 6, 450),
-                                            Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(GraphicsDevice.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Previous Page - Left Arrow Key", new Vector2(GraphicsDevice.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                }
-            }
+            // Draws the menus and splash screen
+            menus.drawMenus(spriteBatch, gameState, instructionState, timer);
+
             // Draws game screen
             if (gameState == GameState.Game)
             {
-                for (int row = 0; row < CurrentMap.tileMap.GetLength(0); row++)
-                {
-                    for (int column = 0; column < CurrentMap.tileMap.GetLength(1); column++)
-                    {
-                        if (CurrentMap.tileMap[row, column] != null)
-                            spriteBatch.Draw(CurrentMap.tileMap[row, column].TileTexture, CurrentMap.tileMap[row, column].TileRect, CurrentMap.tileMap[row, column].TileColor);
-                    }
-                }
+                // Draws the Map
+                CurrentMap.MapDraw(gameState, spriteBatch);
+
+                // Draws the players
                 p1.DrawP(spriteBatch, 1, font1, graphics);
                 p2.DrawP(spriteBatch, 2, font1, graphics);
+                // put all the above in a method in player class
+
             }
-            if(gameState==GameState.End)
-            {
-                if(p1.points<=50)
-                {
-                    spriteBatch.DrawString(font1, "Player 2 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.White);
-                }
-                else
-                {
-                    spriteBatch.DrawString(font1, "Player 1 wins!", new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2), Color.Black);
-                }
-                spriteBatch.DrawString(font1, "Press enter to return to the title screen", new Vector2(GraphicsDevice.Viewport.Height / 2, GraphicsDevice.Viewport.Height / 2+40), Color.White);
-            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);
