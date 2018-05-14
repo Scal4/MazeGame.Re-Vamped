@@ -109,9 +109,9 @@ namespace MazeGame
         }
         public void updateSpeed()
         {
-            if (((maxSpeed) - (points / 75)) != 0)
+            if (((maxSpeed) - (points / 100)) != 0)
             {
-                speed = ((maxSpeed) - (points / 75)) * (speed / Math.Abs(speed));
+                speed = ((maxSpeed) - (points /100)) * (speed / Math.Abs(speed));
             }
             /*if (speed == 0)
             {
@@ -171,7 +171,7 @@ namespace MazeGame
 
         public void Reset()
         {
-            points = 400;
+            points = 300;
             gameState = GameState.Game;
             while (true)
             {

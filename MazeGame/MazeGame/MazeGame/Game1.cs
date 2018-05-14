@@ -73,6 +73,8 @@ namespace MazeGame
         // Lists
         List<Song> songs;
         int pSize;
+
+        const float stringScale = 0.5625f;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -147,8 +149,8 @@ namespace MazeGame
 
             // Songs
             songs.Add(this.Content.Load<Song>("Menu_Audio"));
-                        
-            menus = new Menus(gameState, instructionState, GraphicsDevice, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, splashScreen);
+
+            menus = new Menus(gameState, instructionState, GraphicsDevice, stringScale, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, allPurposeTexture, splashScreen);
             audio = new Audio(songs, gameState);
 
             MediaPlayer.Play(songs[0]);

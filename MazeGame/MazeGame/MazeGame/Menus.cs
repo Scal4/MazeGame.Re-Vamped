@@ -21,7 +21,8 @@ namespace MazeGame
         RoundOver,
         GameOver,
         Exit,
-        End
+        End,
+        Paused
     }
 
     enum InstructionState
@@ -33,7 +34,9 @@ namespace MazeGame
 
     class Menus
     {
-        GameState gameState;
+        Player p1;
+        Player p2;
+        GameState MenuGameState;
         InstructionState instructionState;
         Rectangle selecterArrow;
         Rectangle splashScreen;
@@ -42,34 +45,44 @@ namespace MazeGame
         SpriteFont font1;
         Texture2D selecterArrowTexture;
         Texture2D splashScreenTexture;
+        Texture2D allPurposeTexture;
         Color splashScreenColor;
         Color CurrentBackgroundC;
-
+        float stringScale;
         double ScreenWidth;
         double ScreenHeight;
-
-        const float stringScale = 0.5625f;
         float AspectRatio;
-
         int timer;
         int roundOverTimer;
         int gameOverTimer;
         int red;
         int blue;
         int green;
-        int round;
-
+        public int round;
+        int seconds;
+        int gameOverSeconds;
+        int p1Wins;
+        int p2Wins;
+        int currentP1Points;
+        int currentP2Points;
         string roundString;
+        string roundCountString;
         string gameOverString;
-
+        string gameOverCountString;
+        string p1RoundWin;
+        string p2RoundWin;
+        string p1GameWin;
+        string p2GameWin;
 
         public Menus(GameState gameState, InstructionState instructionState,
-                     GraphicsDevice graphicsDevice, double ScreenWidth, double ScreenHeight,
+                     GraphicsDevice graphicsDevice,
+                     float stringScale, double ScreenWidth, double ScreenHeight,
                      SpriteFont bigFont, SpriteFont font1,
-                     Texture2D selecterArrowTexture, Texture2D splashScreenTexture,
+                     Texture2D selecterArrowTexture, Texture2D splashScreenTexture, Texture2D allPurposeTexture,
                      Rectangle splashScreen)
         {
             this.g = graphicsDevice;
+            this.stringScale = stringScale;
             this.ScreenWidth = ScreenWidth;
             this.ScreenHeight = ScreenHeight;
             this.bigFont = bigFont;
@@ -77,6 +90,7 @@ namespace MazeGame
             this.selecterArrowTexture = selecterArrowTexture;
             this.splashScreenTexture = splashScreenTexture;
             this.splashScreen = splashScreen;
+            this.allPurposeTexture = allPurposeTexture;
 
             red = 0;
             green = 0;
@@ -86,13 +100,29 @@ namespace MazeGame
             roundOverTimer = 0;
             gameOverTimer = 0;
             round = 1;
+            seconds = 0;
+            gameOverSeconds = 0;
+            p1Wins = 0;
+            p2Wins = 0;
 
             roundString = "Round Over";
+            roundCountString = "Next round starts in ";
             gameOverString = "Game Over";
+            gameOverCountString = "Return to Start Screen in ";
+            p1RoundWin = "Player 1 wins the round!";
+            p2RoundWin = "Player 2 wins the round!";
+            p1GameWin = "Player 1 Wins!";
+            p2GameWin = "Player 2 Wins!";
 
             selecterArrow = new Rectangle(g.Viewport.Width / 3, 500, 50, 50);
             timer = 0;
             AspectRatio = (float)ScreenWidth / (float)ScreenHeight;
+
+            p1 = new Player(true, new Rectangle(200, 100, 20, 20), allPurposeTexture);
+            p2 = new Player(false, new Rectangle(240, 100, 20, 20), allPurposeTexture);
+
+            currentP1Points = p1.points;
+            currentP2Points = p1.points;
         }
 
         // Method for menu navigations and splash screen. Round over and game over screens still need work
@@ -126,17 +156,17 @@ namespace MazeGame
 
                 if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500)
                 {
-                    this.gameState = GameState.Instructions;
+                    this.MenuGameState = GameState.Instructions;
                 }
 
                 if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 600)
                 {
-                    this.gameState = GameState.Game;
+                    this.MenuGameState = GameState.Game;
                 }
 
                 if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 700)
                 {
-                    this.gameState = GameState.Exit;
+                    this.MenuGameState = GameState.Exit;
                 }
             }
 
@@ -145,7 +175,7 @@ namespace MazeGame
             {
                 if (kb.IsKeyDown(Keys.Escape) && oldKb != kb)
                 {
-                    this.gameState = GameState.StartScreen;
+                    this.MenuGameState = GameState.StartScreen;
                 }
 
                 if (kb.IsKeyDown(Keys.Right) && instructionState == InstructionState.Page1 && oldKb != kb)
@@ -176,43 +206,84 @@ namespace MazeGame
 
                 if (timer >= 370)
                 {
-                    this.gameState = GameState.StartScreen;
+                    this.MenuGameState = GameState.StartScreen;
                 }
             }
 
             // Code for round over screen
             if (gameState == GameState.RoundOver)
             {
-                roundOverTimer++;
-                Console.WriteLine(roundOverTimer);
-
-                if(round != 4)
+                if (round == 4)
                 {
+                    MenuGameState = GameState.GameOver;
+                }
+
+                if (round != 4)
+                {
+                    if (roundOverTimer <= 60)
+                    {
+                        seconds = 3;
+                    }
+
+                    else if (roundOverTimer <= 120)
+                    {
+                        seconds = 2;
+                    }
+
+                    else if (roundOverTimer <= 180)
+                    {
+                        seconds = 1;
+                    }
+
                     if (roundOverTimer >= 240)
                     {
-                        // Reset
-                        this.gameState = GameState.Game;
+                        if (p1.points == 50)
+                        {
+                            p2Wins += 1;
+                        }
+
+                        else if (p2.points == 50)
+                        {
+                            p1Wins += 1;
+                        }
+
+                        seconds = 0;
+                        // Resets game
+                        this.MenuGameState = GameState.Game;
                         roundOverTimer = 0;
                         round++;
                     }
                 }
 
-                if(round == 4)
-                {
-                    gameState = GameState.GameOver;
-                }
+                roundOverTimer++;
             }
 
             // Code for game over screen
             if (gameState == GameState.GameOver)
             {
-                gameOverTimer++;
+                if (gameOverTimer <= 60)
+                {
+                    gameOverSeconds = 3;
+                }
+
+                else if (gameOverTimer <= 120)
+                {
+                    gameOverSeconds = 2;
+                }
+
+                else if (gameOverTimer <= 180)
+                {
+                    gameOverSeconds = 1;
+                }
 
                 if (gameOverTimer >= 240)
                 {
-                    this.gameState = GameState.StartScreen;
+                    gameOverSeconds = 0;
+                    this.MenuGameState = GameState.StartScreen;
                     gameOverTimer = 0;
                 }
+
+                gameOverTimer++;
             }
         }
 
@@ -229,15 +300,16 @@ namespace MazeGame
 
         public GameState GameStateValue()
         {
-            return gameState;
+            return MenuGameState;
         }
 
-        // Draws the splash screen and menus
+        // Draws the splash screen, menus, round over and game over screens
         public void drawMenus(SpriteBatch spriteBatch, GameState gameState, InstructionState instructionState, int timer)
         {
+            // Start screen
             if (gameState == GameState.StartScreen)
             {
-                
+
                 spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(g.Viewport.Width / 5, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(bigFont, "Crazy Mazey Tag", new Vector2(g.Viewport.Width / 5, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None,
                                         0f);
@@ -251,6 +323,7 @@ namespace MazeGame
                 spriteBatch.Draw(selecterArrowTexture, selecterArrow, Color.White);
             }
 
+            // Instruction screen
             if (gameState == GameState.Instructions)
             {
                 if (instructionState == InstructionState.Page1)
@@ -310,6 +383,7 @@ namespace MazeGame
                 }
             }
 
+            // Splash screen
             if (gameState == GameState.SplashScreen)
             {
                 if (timer > 0 && timer < 120)
@@ -336,16 +410,49 @@ namespace MazeGame
                 }
             }
 
+            // Round over screen
             if (gameState == GameState.RoundOver)
             {
-                spriteBatch.DrawString(bigFont, roundString, new Vector2((int)ScreenWidth / 4, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(bigFont, roundString, new Vector2((int)ScreenWidth / 4, (int)ScreenHeight / 2), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(bigFont, roundString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(bigFont, roundString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+
+                if (p2.points == 50)
+                {
+                    spriteBatch.DrawString(font1, p1RoundWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                }
+
+                else if (p1.points == 50)
+                {
+                    spriteBatch.DrawString(font1, p2RoundWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                }
+
+                spriteBatch.DrawString(font1, roundCountString + seconds, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2 + 30), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
             }
 
+            // Game over screen
             if (gameState == GameState.GameOver)
             {
-                spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 4, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 4, (int)ScreenHeight / 2), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+
+                if (round == 4 && (p2Wins == 2 || p2Wins == 3))
+                {
+                    spriteBatch.DrawString(font1, p2GameWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                }
+
+                else if (round == 4 && (p1Wins == 2 || p1Wins == 3))
+                {
+                    spriteBatch.DrawString(font1, p1GameWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                }
+
+                spriteBatch.DrawString(font1, gameOverCountString + seconds, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+            }
+
+            // Pause screen
+            if (gameState == GameState.Paused)
+            {
+                spriteBatch.DrawString(bigFont, "Paused", new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(bigFont, "Paused", new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
             }
         }
     }
