@@ -134,17 +134,20 @@ namespace MazeGame
             bigFont = this.Content.Load<SpriteFont>("SpriteFont2");
 
             firstMap = new Map(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, allPurposeTexture, "Content/MazeGameMap.txt");
+            CurrentMap = firstMap;
 
-            p1 = new Player(true, new Rectangle(200, 100, pSize, pSize), allPurposeTexture);
-            p2 = new Player(false, new Rectangle(240, 100, pSize, pSize), allPurposeTexture);
+            p1 = new Player(true, pSize, allPurposeTexture, CurrentMap,1);
+            p2 = new Player(false, pSize, allPurposeTexture, CurrentMap,2);
+            while(p1.pRect.Intersects(p2.pRect))
+            {
+                p2.newRandomStart();
+            }
             p1Border =new Rectangle(p1.pRect.X + p1.pRect.Width / 7, p1.pRect.Y + p1.pRect.Width / 7, p1.pRect.Width - ((p1.pRect.Width / 7) * 2), p1.pRect.Height - ((p1.pRect.Width / 7) * 2));
             p2Border = new Rectangle(p2.pRect.X + p2.pRect.Width / 7, p2.pRect.Y + p2.pRect.Width / 7, p2.pRect.Width - ((p2.pRect.Width / 7) * 2), p2.pRect.Height - ((p2.pRect.Width / 7) * 2));
 
             // Songs
             songs.Add(this.Content.Load<Song>("Menu_Audio"));
-
-            CurrentMap = firstMap;
-            
+                        
             menus = new Menus(gameState, instructionState, GraphicsDevice, ScreenWidth, ScreenHeight, bigFont, font1, selecterArrowTexture, splashScreenTexture, splashScreen);
             audio = new Audio(songs, gameState);
 
@@ -194,8 +197,12 @@ namespace MazeGame
             if (menus.ReturnTimer() >= 240)
             {
                 //Reset
-                //p1.Reset();
-                //p2.Reset();
+                p1.Reset();
+                p2.Reset();
+                while (p1.pRect.Intersects(p2.pRect))
+                {
+                    p2.newRandomStart();
+                }
                 //CurrentBackgroundC = Color.Black;
             }
 

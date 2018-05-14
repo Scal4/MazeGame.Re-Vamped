@@ -40,7 +40,7 @@ namespace MazeGame
         public bool moveL = true; // N
         public bool moveU = true; // N
         public bool moveD = true; // N
-
+        int pInd;
         public MoveDirectionV moveDirectionV; // N
         public MoveDirectionH moveDirectionH; // N
 
@@ -53,7 +53,8 @@ namespace MazeGame
         KeyboardState old;
         int itTime = 0;
         GameState gameState;
-
+        Random r;
+        Map cMap;
         public Player(bool i, Rectangle rect, Texture2D text)
         {
             old = Keyboard.GetState();
@@ -65,8 +66,47 @@ namespace MazeGame
             updateSpeed();
             previousPos = new Vector2(rect.X, rect.Y); // N
             gameState = GameState.Game;
+            
         }
-
+        public Player(bool i, int pSize, Texture2D text, Map cMap,int p)
+        {
+            old = Keyboard.GetState();
+            pInd = p;
+            it = i;
+            points = 300;
+            pText = text;
+            this.cMap = cMap;
+            int x;
+            int y;
+            pRect.Width = pSize;
+            pRect.Height = pSize;
+            r = new Random((int)DateTime.Now.Ticks);
+            while (true)
+            {
+                x = r.Next(0, cMap.tileMap.GetLength(0));
+                y = r.Next(0, cMap.tileMap.GetLength(1));
+                if (cMap.tileMap[x, y].Tiletype == TileType.Floor) // put a randomizer check and make sure other player is not intersecting
+                {
+                    pRect.X = cMap.tileMap[x, y].TileRect.X + pSize; // position within floor tile
+                    pRect.Y = cMap.tileMap[x, y].TileRect.Y + pSize;
+                    break;
+                }
+            }  
+        }
+        public void newRandomStart()
+        {
+            while (true)
+            {
+                int x = r.Next(0, cMap.tileMap.GetLength(0));
+                int y = r.Next(0, cMap.tileMap.GetLength(1));
+                if (cMap.tileMap[x, y].Tiletype == TileType.Floor) // put a randomizer check and make sure other player is not intersecting
+                {
+                    pRect.X = cMap.tileMap[x, y].TileRect.X + pRect.Width; // position within floor tile
+                    pRect.Y = cMap.tileMap[x, y].TileRect.Y + pRect.Width;
+                    break;
+                }
+            }
+        }
         public void updateSpeed()
         {
             if (((maxSpeed) - (points / 75)) != 0)
@@ -133,6 +173,18 @@ namespace MazeGame
         {
             points = 400;
             gameState = GameState.Game;
+            while (true)
+            {
+                int x = r.Next(0, cMap.tileMap.GetLength(0));
+                int y = r.Next(0, cMap.tileMap.GetLength(1));
+                if (cMap.tileMap[x, y].Tiletype == TileType.Floor) // put a randomizer check and make sure other player is not intersecting
+                {
+                    pRect.X = cMap.tileMap[x, y].TileRect.X + pRect.Width; // position within floor tile
+                    pRect.Y = cMap.tileMap[x, y].TileRect.Y + pRect.Width;
+                    break;
+                }
+            }
+
         }
 
         public GameState winCheck()
