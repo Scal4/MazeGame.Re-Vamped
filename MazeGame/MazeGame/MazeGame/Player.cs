@@ -20,7 +20,10 @@ namespace MazeGame
     {
         West, East, None
     }
-
+    enum PlayerSpeedState
+    {
+        Normal,Slow,Fast
+    }
     class Player
     {
         //p1 has a green border
@@ -29,13 +32,13 @@ namespace MazeGame
 
         public bool it;
 
-        const int minSpeed = 2;
+        const int minSpeed = 4;
         const int maxSpeed = 8;
         public int iFrames = 0;
         public int points;
         int pMovex;
         int pMoveY;
-
+        public PlayerSpeedState speedMod = PlayerSpeedState.Normal;
         public bool moveR = true; // N
         public bool moveL = true; // N
         public bool moveU = true; // N
@@ -45,7 +48,8 @@ namespace MazeGame
         public MoveDirectionH moveDirectionH; // N
 
         public Vector2 previousPos; // N
-
+        public int effectTime=0;
+        
         public Texture2D pText;
         public Rectangle pRect;
         int bumpT = -1;
@@ -53,7 +57,7 @@ namespace MazeGame
         KeyboardState old;
         int itTime = 0;
         GameState gameState;
-        Random r;
+        public Random r;
         Map cMap;
         public Player(bool i, Rectangle rect, Texture2D text)
         {
@@ -109,9 +113,9 @@ namespace MazeGame
         }
         public void updateSpeed()
         {
-            if (((maxSpeed) - (points / 100)) != 0)
+            if (((maxSpeed+4) - (points / 50)) >= 0)
             {
-                speed = ((maxSpeed) - (points /100)) * (speed / Math.Abs(speed));
+                speed = ((maxSpeed+4) - (points/50)) * (speed / Math.Abs(speed));
             }
             /*if (speed == 0)
             {
@@ -125,9 +129,25 @@ namespace MazeGame
             {
                 speed = maxSpeed * (speed / Math.Abs(speed));
             }
+            if(speedMod == PlayerSpeedState.Slow)
+            {
+                speed /= 2;
+            }
+            if (speedMod == PlayerSpeedState.Fast)
+            {
+                speed *= 2;
+            }
         }
         public void update(int pindex, Player otherP)
         {
+            if(effectTime>0)
+            {
+                effectTime--;
+            }
+            else
+            {
+                speedMod = PlayerSpeedState.Normal;
+            }
             updateSpeed();
             if (iFrames != 0)
             {

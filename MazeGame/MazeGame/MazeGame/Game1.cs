@@ -173,10 +173,13 @@ namespace MazeGame
         protected override void Update(GameTime gameTime)
         {
             // escape key missing
-
+            
             // Add your update logic here
             KeyboardState kb = Keyboard.GetState();
-
+            if (kb.IsKeyDown(Keys.Back) && !oldKb.IsKeyDown(Keys.Back))
+            {
+                this.Exit();
+            }
             // Methods from the Menus class to run the menus
             menus.Navigations(gameState, instructionState, kb, CurrentBackgroundC, oldKb, timer, gameOverTimer);
             gameState = menus.GameStateValue();

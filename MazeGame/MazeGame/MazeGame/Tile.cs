@@ -13,7 +13,7 @@ namespace MazeGame
 {
     enum TileType
     {
-        Floor, Wall, Door, AdjacentDoorTiles
+        Floor, Wall, Door, AdjacentDoorTiles, ChanceTile
     }
     class Tile
     {

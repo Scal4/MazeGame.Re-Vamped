@@ -213,12 +213,12 @@ namespace MazeGame
             // Code for round over screen
             if (gameState == GameState.RoundOver)
             {
-                if (round == 4)
+                if (round == 3)
                 {
                     MenuGameState = GameState.GameOver;
                 }
 
-                if (round != 4)
+                if (round != 3)
                 {
                     if (roundOverTimer <= 60)
                     {
@@ -353,7 +353,7 @@ namespace MazeGame
                     spriteBatch.DrawString(font1, "Tiles:", new Vector2(g.Viewport.Width / 6, 200), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Door - Opens for a limited time when player uses it", new Vector2(g.Viewport.Width / 6, 250), Color.Red, 0f, Vector2.Zero,
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Speed Tiles - Has the chance to either increase or decrease\nthe player's speed temporarily", new Vector2(g.Viewport.Width / 6, 300),
+                    spriteBatch.DrawString(font1, "Speed Tiles - Has the chance to either increase or decrease\nthe player's speed temporarily(gray)", new Vector2(g.Viewport.Width / 6, 300),
                                             Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Slow Block - Player's speed will be decreased for a short time", new Vector2(g.Viewport.Width / 6, 400), Color.Red, 0f, Vector2.Zero,
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
@@ -435,12 +435,12 @@ namespace MazeGame
                 spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 spriteBatch.DrawString(bigFont, gameOverString, new Vector2((int)ScreenWidth / 3 - 50, (int)ScreenHeight / 3), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
 
-                if (round == 4 && (p2Wins == 2 || p2Wins == 3))
+                if (round == 3 && (p2Wins == 2 || p2Wins == 3))
                 {
                     spriteBatch.DrawString(font1, p2GameWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 }
 
-                else if (round == 4 && (p1Wins == 2 || p1Wins == 3))
+                else if (round == 3 && (p1Wins == 2 || p1Wins == 3))
                 {
                     spriteBatch.DrawString(font1, p1GameWin, new Vector2((int)ScreenWidth / 3 + 25, (int)ScreenHeight / 2), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 }

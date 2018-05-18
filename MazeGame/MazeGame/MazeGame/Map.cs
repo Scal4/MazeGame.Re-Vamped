@@ -96,6 +96,10 @@ namespace MazeGame
                     {
                         AddTile(row, column, Color.Yellow, TileType.Door);
                     }
+                    else if (c[i].Equals('C'))
+                    {
+                        AddTile(row, column, Color.Gray, TileType.ChanceTile);
+                    }
                     else // nothing floor
                     {
                         AddTile(row, column, FLOORCOLOR, TileType.Floor);
@@ -136,9 +140,11 @@ namespace MazeGame
                                                                   screenW / (int)mapSize.X, tileHeight), allPurposeTexture, color, type, 1);
                     }
                     break;
-                // more cases 
-
-
+                // increase/decrease speed block 
+                case TileType.ChanceTile:
+                    tileMap[row, column] = new Tile(new Rectangle(row * (screenW / (int)mapSize.X), column * (screenH / (int)mapSize.Y),
+                                                              screenW / (int)mapSize.X, screenH / (int)mapSize.Y), allPurposeTexture, color, type, 1);
+                    break;
                 // floor is default
                 default:
                     tileMap[row, column] = new Tile(new Rectangle(row * (screenW / (int)mapSize.X), column * (screenH / (int)mapSize.Y),
@@ -189,7 +195,20 @@ namespace MazeGame
                     if (player.pRect.Intersects(tileMap[row, column].TileRect))
                     {
                         Rectangle CurrentTileRect = tileMap[row, column].TileRect;
-
+                        if(tileMap[row,column].Tiletype==TileType.ChanceTile)
+                        {
+                            int rand = player.r.Next(0, 100);
+                            if(rand<50&&player.speedMod==PlayerSpeedState.Normal)
+                            {
+                                player.speedMod = PlayerSpeedState.Slow;
+                                player.effectTime = 300;
+                            }
+                            else if(player.speedMod == PlayerSpeedState.Normal)
+                            {
+                                player.speedMod = PlayerSpeedState.Fast;
+                                player.effectTime = 300;
+                            }
+                        }
                         //interaction with tile types
                         if (tileMap[row, column].Tiletype == TileType.Wall) // Wall
                         {
