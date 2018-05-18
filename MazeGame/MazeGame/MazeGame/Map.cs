@@ -232,6 +232,10 @@ namespace MazeGame
                             {
                                 this.MoveDoors(row + 1, column, tileMap[row + 1, column].TileTimer);
                             }
+                            if (tileMap[row , column].Tiletype == TileType.Door)
+                            {
+                                this.MoveDoors(row , column, tileMap[row , column].TileTimer);
+                            }
                             // Left tile is door
                             if (tileMap[row, column - 1].Tiletype == TileType.Door)
                             {
