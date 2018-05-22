@@ -67,7 +67,7 @@ namespace MazeGame
             pText = text;
             pRect = rect;
             it = i;
-            points = 60;
+            points = 150;
             pBorder = new Rectangle(pRect.X + 2, pRect.Y + 2, pRect.Width - 4, pRect.Height - 4);
             updateSpeed();
             previousPos = new Vector2(rect.X, rect.Y); // N
@@ -80,7 +80,7 @@ namespace MazeGame
             old = Keyboard.GetState();
             pInd = p;
             it = i;
-            points = 300;
+            points = 150;
             pText = text;
             this.cMap = cMap;
             int x;
@@ -196,7 +196,7 @@ namespace MazeGame
 
         public void Reset()
         {
-            points = 300;
+            points = 150;
             gameState = GameState.Game;
             while (true)
             {
@@ -214,7 +214,7 @@ namespace MazeGame
         public void TotalReset()
         {
             NumOfLosses = 0;
-            points = 300;
+            points = 150;
             gameState = GameState.Game;
         }
 

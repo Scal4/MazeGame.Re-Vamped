@@ -249,8 +249,14 @@ namespace MazeGame
             // Splash screen timer
             timer++;
 
-            if ((gameState == GameState.StartScreen || gameState == GameState.Instructions) && MediaPlayer.State == MediaState.Stopped)
+            if ((gameState == GameState.StartScreen || gameState == GameState.Instructions) && (MediaPlayer.State == MediaState.Stopped || changeSongs == true))
             {
+                if (changeSongs == true)
+                {
+                    changeSongs = false;
+                    MediaPlayer.Stop();
+                }
+
                MediaPlayer.Play(songs[0]);
             }
 
@@ -259,14 +265,18 @@ namespace MazeGame
                 MediaPlayer.Play(songs[1]);
             }
 
-            if(gameState == GameState.RoundOver || gameState == GameState.GameOver)
+            if(gameState == GameState.RoundOver)
             {
                 MediaPlayer.Pause();
             }
-
             else
             {
                 MediaPlayer.Resume();
+            }
+            if (gameState == GameState.GameOver)
+            {
+                MediaPlayer.Pause();
+                changeSongs = true;
             }
 
             oldKb = kb;

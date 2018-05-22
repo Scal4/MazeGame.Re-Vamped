@@ -27,8 +27,7 @@ namespace MazeGame
     enum InstructionState
     {
         Page1,
-        Page2,
-        Page3
+        Page2
     }
 
     class Menus
@@ -174,7 +173,7 @@ namespace MazeGame
                     selecterArrow.Y = 500;
                 }
 
-                if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500)
+                if (kb.IsKeyDown(Keys.Enter) && selecterArrow.Y == 500 && !oldKb.IsKeyDown(Keys.Enter))
                 {
                     this.MenuGameState = GameState.Instructions;
                 }
@@ -203,16 +202,6 @@ namespace MazeGame
                     this.instructionState = InstructionState.Page2;
                 }
 
-                else if (kb.IsKeyDown(Keys.Right) && instructionState == InstructionState.Page2 && oldKb != kb)
-                {
-                    this.instructionState = InstructionState.Page3;
-                }
-
-                else if (kb.IsKeyDown(Keys.Left) && instructionState == InstructionState.Page3 && oldKb != kb)
-                {
-                    this.instructionState = InstructionState.Page2;
-                }
-
                 else if (kb.IsKeyDown(Keys.Left) && instructionState == InstructionState.Page2 && oldKb != kb)
                 {
                     this.instructionState = InstructionState.Page1;
@@ -234,7 +223,7 @@ namespace MazeGame
             if (gameState == GameState.RoundOver)
             {
 
-                selecterArrow.Y = (int)(restartButonPos.Y); 
+                selecterArrow.Y = (int)(restartButonPos.Y);
 
                 if (round == 3)
                 {
@@ -309,10 +298,10 @@ namespace MazeGame
                 selecterArrow.X = (int)(quitButtonPos.X * 0.9);
 
                 if (selecterArrow.Y == quitButtonPos.Y && kb != oldKb && kb.IsKeyDown(Keys.Up))
-                {                    
+                {
                     selecterArrow.Y = (int)(restartButonPos.Y); // was here
                 }
-                else if(selecterArrow.Y == restartButonPos.Y && kb != oldKb && kb.IsKeyDown(Keys.Down))
+                else if (selecterArrow.Y == restartButonPos.Y && kb != oldKb && kb.IsKeyDown(Keys.Down))
                 {
                     selecterArrow.Y = (int)(quitButtonPos.Y);
                 }
@@ -327,14 +316,14 @@ namespace MazeGame
                     resetMenus();
                 }
 
-                
+
 
                 gameOverTimer++;
             }
 
-            if(gameState == GameState.Paused)
+            if (gameState == GameState.Paused)
             {
-                if(kb.IsKeyDown(Keys.Down) && oldKb != kb)
+                if (kb.IsKeyDown(Keys.Down) && oldKb != kb)
                 {
                     pausedArrow.Y += 60;
                 }
@@ -354,7 +343,7 @@ namespace MazeGame
                     pausedArrow.Y = (int)ScreenHeight / 2 + 60;
                 }
 
-                if(kb.IsKeyDown(Keys.Enter) && pausedArrow.Y == (int)ScreenHeight / 2)
+                if (kb.IsKeyDown(Keys.Enter) && pausedArrow.Y == (int)ScreenHeight / 2)
                 {
                     gameState = GameState.Game;
                 }
@@ -419,8 +408,6 @@ namespace MazeGame
                                            SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Player 2 has a Green Border", new Vector2(g.Viewport.Width / 4, 550), Color.Green, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
                                             SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Press P at anytime during the game to pause the game", new Vector2(g.Viewport.Width / 4, 600), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(g.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
                                             SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Next Page - Right Arrow Key", new Vector2(g.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
@@ -436,30 +423,9 @@ namespace MazeGame
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Speed Tiles - Has the chance to either increase or decrease\nthe player's speed temporarily", new Vector2(g.Viewport.Width / 6, 300),
                                             Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Slow Block - Player's speed will be decreased for a short time", new Vector2(g.Viewport.Width / 6, 400), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Speed Block - Player's speed will be increased for a short time", new Vector2(g.Viewport.Width / 6, 450), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(g.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
                                             SpriteEffects.None, 0f);
                     spriteBatch.DrawString(font1, "Next Page - Right Arrow Key\nPrevious Page - Left Arrow Key", new Vector2(g.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
-                                            (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                }
-
-                else if (instructionState == InstructionState.Page3)
-                {
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.Blue, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(bigFont, "Instructions", new Vector2((int)ScreenWidth / 4, 25), Color.White, 0f, new Vector2(10, 0), (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Power-Ups:", new Vector2(g.Viewport.Width / 6, 200), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Thunderbolt - Stuns other players for one second.\nRunner and Tagger can use this", new Vector2(g.Viewport.Width / 6, 250), Color.Red, 0f,
-                                            Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Ghost - Ignore tile effects. Can pass through doors at any time.\nGhost cannot be tagged. Lasts for a few seconds",
-                                            new Vector2(g.Viewport.Width / 6, 350), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Flicker - Screen flashes, making it more difficult for\nplayers to see for 5 seconds", new Vector2(g.Viewport.Width / 6, 450),
-                                            Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Press Escape to go back", new Vector2(g.Viewport.Width / 4, 800), Color.Red, 0f, Vector2.Zero, (float)AspectRatio * stringScale,
-                                            SpriteEffects.None, 0f);
-                    spriteBatch.DrawString(font1, "Previous Page - Left Arrow Key", new Vector2(g.Viewport.Width / 4, 850), Color.Red, 0f, Vector2.Zero,
                                             (float)AspectRatio * stringScale, SpriteEffects.None, 0f);
                 }
             }
