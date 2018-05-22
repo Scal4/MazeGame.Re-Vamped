@@ -84,7 +84,7 @@ namespace MazeGame
 
             ScreenHeight = graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             ScreenWidth = graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //graphics.ToggleFullScreen();
+            graphics.ToggleFullScreen();
             graphics.ApplyChanges();
         }
 
